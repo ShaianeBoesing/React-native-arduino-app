@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
 import ButtonWithLoader from './components/ButtonWithLoader';
+import Table from './components/Table';
 
 const App = () => {
   const [waitingForSetState, setWaitingForSetState] = useState(false);
   const [waitingForSetIntensity, setWaitingForSetIntensity] = useState(false);
+  const [waitingForSetMorse, setWaitingForSetMorse] = useState(false);
   const [intensity, setIntensity] = useState('0');
   const [state, setState] = useState('off');
+  const [morse, setMorse] = useState('');
+  const [historyArrObject, setHistoryArrObject] = useState('[]')
+  const [waitingForGetState, setWaitingForGetState] = useState(false);
+  const [stateGot, setStateGot] = useState('Nenhum');
 
   const onPressSetState = async () => {
     setWaitingForSetState(true);
     let newState = state == 'on' ? 'off' : 'on';
-    console.log(newState);
     fetch(`http://localhost:80/setState/${newState}`)
       .then(response => response.text())
       .then(data => {
@@ -46,6 +51,54 @@ const App = () => {
       });
   };
 
+  const onPressSetMorseLed = () => {
+    setWaitingForSetMorse(true);
+    let newMorse = morse == '' ? 'a' : morse; 
+    fetch(`http://localhost:80/morse/${newMorse }`)
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        alert(data);
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert(error);
+      })
+      .finally(() => {
+        setWaitingForSetMorse(false);
+      });
+  };
+  
+  const LoadHistory = () => {
+    fetch(`http://localhost:80/history`)
+      .then(response => response.text())
+      .then(data => {
+        setHistoryArrObject(data)
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert(error);
+      })
+  };
+
+    
+  const onPressGetStateLed = () => {
+    setWaitingForGetState(true);
+    fetch(`http://localhost:80/getState`)
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        alert(data);
+        setStateGot(data)
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert(error);
+      })
+      .finally(() => {
+        setWaitingForGetState(false);
+      });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -69,6 +122,27 @@ const App = () => {
           onPress={onPressSetIntensityLed}
           isLoading={waitingForSetIntensity}
         />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Informe o texto"
+          onChangeText={text => setMorse(text)}
+          value={morse}
+        />
+        <ButtonWithLoader
+          title="Traduzir para Morse"
+          onPress={onPressSetMorseLed}
+          isLoading={waitingForSetMorse}
+        />
+
+        <Text style={styles.title}>Estado atual do led: {stateGot} </Text>
+        <ButtonWithLoader
+          title="Buscar Estado"
+          onPress={onPressGetStateLed}
+          isLoading={waitingForGetState}
+        />
+        {LoadHistory()}
+        <Table historyArrObject={JSON.parse(historyArrObject)} />
       </View>
     </SafeAreaView>
   );
