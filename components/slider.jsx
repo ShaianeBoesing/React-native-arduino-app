@@ -3,42 +3,40 @@ import { View, Text, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
 import ButtonWithLoader from './ButtonWithLoader';
 
-const onPressSetIntensityLed = () => {
-  setWaitingForSetIntensity(true);
-  let newIntensity = intensity == '' ? -1 : intensity;
-  fetch(`http://localhost:80/intensity/${newIntensity}`)
-    .then(response => response.text())
-    .then(data => {
-      console.log(data);
-      alert(data);
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-      alert(error);
-    })
-    .finally(() => {
-      setWaitingForSetIntensity(false);
-    });
-};
-
-
 const SliderComponent = () => {
   const [waitingForSetIntensity, setWaitingForSetIntensity] = useState(false);
-  const [value, setValue] = useState(0);
+  const [intensity, setIntensity] = useState(0);
 
   const handleSliderChange = (sliderValue) => {
-    setValue(sliderValue);
+    setIntensity(sliderValue);
   };
 
+  const onPressSetIntensityLed = () => {
+    setWaitingForSetIntensity(true);
+    let newIntensity = intensity == '' ? -1 : intensity;
+    fetch(`http://10.0.0.174:80/intensity/${newIntensity}`)
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        alert(data);
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert(error);
+      })
+      .finally(() => {
+        setWaitingForSetIntensity(false);
+      });
+  };
   return (
     <View >
-      <Text>Intensidade: {value}%</Text>
+      <Text>Intensidade: {intensity}%</Text>
       <View style={{ margin: 4 }} />
       <View style={styles.container}>
         <Slider style={styles.slider}
           minimumValue={0}
           maximumValue={100}
-          value={value}
+          value={intensity}
           onValueChange={handleSliderChange}
           step={1}
           minimumTrackTintColor="#8a5336"

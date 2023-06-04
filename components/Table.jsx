@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 const { format } = require('date-fns');
 const { ptBR } = require('date-fns/locale');
@@ -11,7 +11,7 @@ const Table = ({ historyArrObject }) => {
     }));
     
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.header}>Tipo</Text>
         <Text style={styles.header}>Valor</Text>
@@ -24,7 +24,7 @@ const Table = ({ historyArrObject }) => {
           <Text style={styles.cell}>{item.createdAt}</Text>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 

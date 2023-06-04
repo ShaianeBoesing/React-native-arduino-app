@@ -11,7 +11,7 @@ const MorsePage = () => {
     const onPressSetMorseLed = () => {
         setWaitingForSetMorse(true);
         let newMorse = morse == '' ? 'a' : morse; 
-        fetch(`http://localhost:80/morse/${newMorse }`)
+        fetch(`http://10.0.0.174:80/morse/${newMorse }`)
           .then(response => response.text())
           .then(data => {
             console.log(data);
