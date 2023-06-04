@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 
-
 const ButtonWithLoader = ({ title, onPress, isLoading }) => {
   return (
     <TouchableOpacity
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8a5336',
     paddingHorizontal: 10,
     paddingVertical: 8,
-    borderRadius: 4,
+    borderRadius: 20,
   },
   buttonLoader: {
     marginRight: 8,
