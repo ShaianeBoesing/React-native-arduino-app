@@ -10,12 +10,12 @@ const LightChangePage = () => {
     const onPressSetState = async () => {
         setWaitingForSetState(true);
         let newState = state == 'on' ? 'off' : 'on';
-        fetch(`http://10.0.0.174:80/setState/${newState}`)
+        fetch(`http://172.20.10.2:80/setState/${newState}`)
             .then(response => response.text())
             .then(data => {
                 setState(newState);
                 console.log(data);
-                alert(data);
+                // alert(data);
             })
             .catch(error => {
                 console.error('Erro:', error);

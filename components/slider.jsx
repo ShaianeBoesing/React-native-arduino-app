@@ -14,11 +14,11 @@ const SliderComponent = () => {
   const onPressSetIntensityLed = () => {
     setWaitingForSetIntensity(true);
     let newIntensity = intensity == '' ? -1 : intensity;
-    fetch(`http://10.0.0.174:80/intensity/${newIntensity}`)
+    fetch(`http://172.20.10.2:80/intensity/${newIntensity}`)
       .then(response => response.text())
       .then(data => {
         console.log(data);
-        alert(data);
+        // alert(data);
       })
       .catch(error => {
         console.error('Erro:', error);

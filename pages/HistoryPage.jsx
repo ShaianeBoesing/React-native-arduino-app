@@ -7,7 +7,7 @@ const HistoryPage = () => {
 
 
     const LoadHistory = () => {
-        fetch(`http://10.0.0.174:80/history`)
+        fetch(`http://172.20.10.2:80/history`)
             .then(response => response.text())
             .then(data => {
                 setHistoryArrObject(data)
